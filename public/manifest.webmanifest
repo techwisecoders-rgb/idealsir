@@ -1,0 +1,10 @@
+{
+  "name": "Chakra Universe | HAI SuperHero",
+  "short_name": "HAI SuperHero",
+  "description": "Education, technology, startup services and collaboration.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#050508",
+  "icons": []
+}
