@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node server.js",
+    "start": "node server.js",
+    "dev:next": "next dev",
+    "build": "node --check server.js",
+    "build:next": "next build",
+    "start:next": "next start",
     "lint": "eslint ."
   },
   "dependencies": {
