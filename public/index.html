@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARSHA SIR UNIVERSE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            font-family: Georgia, serif;
+            background: #000;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* HEADER & FOOTER OVERLAYS */
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 1100;
+
+            background-image: url('https://cdn.corenexis.com/f/oirU7GDf.png');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #000;
+        }
+
+        #main {
+            position: fixed;
+            top: 120px;
+            bottom: 64px;
+            left: 0;
+            right: 0;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+
+        .main-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: opacity .4s ease;
+        }
+
+        .image-wrapper.hide-bg .main-bg {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .lightning-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 300;
+            box-shadow: 0 0 15px rgba(255, 255, 255, .7);
+            transition: .2s ease;
+            user-select: none;
+        }
+
+        .lightning-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(255, 215, 0, .9);
+        }
+
+        .grid-carousel-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: min(90%, 500px);
+            margin: 12px auto 10px auto;
+            z-index: 301;
+        }
+
+        .grid-carousel-dots {
+            display: flex;
+            gap: 10px;
+            background: rgba(15, 16, 26, 0.8);
+            padding: 8px 16px;
+            border-radius: 24px;
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            backdrop-filter: blur(8px);
+            margin: 0;
+        }
+
+        .corner-floating-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(15, 16, 26, 0.9);
+            border: 1px solid rgba(0, 240, 255, 0.5);
+            color: #00f0ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .corner-floating-icon:hover {
+            background: #00f0ff;
+            color: #050508;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+        }
+
+        .grid-carousel-dots.hidden {
+            display: none !important;
+        }
+
+        .grid-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all .3s ease;
+        }
+
+        .grid-dot.active {
+            background: #ffd700;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .35s ease;
+        }
+
+        .carousel-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 90%;
+            height: 85%;
+            overflow: hidden;
+            border-radius: 16px;
+            background: #000;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 500%;
+            height: 100%;
+            transform: translate3d(0, 0, 0);
+            transition: transform .55s cubic-bezier(.25, 1, .5, 1);
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            position: relative;
+            flex: 0 0 20%;
+            width: 20%;
+            min-width: 20%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .flip-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform .8s cubic-bezier(.4, .2, .2, 1);
+            cursor: pointer;
+        }
+
+        .flip-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .flip-card-front {
+            background: #000;
+            z-index: 2;
+        }
+
+        .flip-card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #0a0a14, #161626);
+            color: #fff;
+            transform: rotateY(180deg);
+            border: 2px solid #ffd700;
+            box-shadow: inset 0 0 20px rgba(255, 215, 0, .2);
+            padding: clamp(18px, 3vw, 40px);
+            flex-direction: column;
+            text-align: left;
+            overflow-y: auto;
+        }
+
+        .card-back-content {
+            width: 100%;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .card-back-title {
+            color: #ffd700;
+            font-family: Georgia, serif;
+            font-weight: 900;
+            font-size: clamp(26px, min(4.5vw, 5.5vh), 42px);
+            line-height: 1.1;
+            margin-bottom: clamp(14px, 2.5vh, 28px);
+            padding-bottom: clamp(8px, 1.2vh, 14px);
+            border-bottom: 3px solid #ffd700;
+            text-transform: uppercase;
+            letter-spacing: clamp(.5px, .2vw, 2.5px);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .8), 0 0 12px rgba(255, 215, 0, .3);
+        }
+
+        .card-back-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-family: Georgia, serif;
+        }
+
+        .card-back-list li {
+            position: relative;
+            padding-left: clamp(28px, 3vw, 40px);
+            margin-bottom: clamp(10px, 2vh, 22px);
+            color: #ffffff;
+            font-family: Georgia, serif;
+            font-weight: 800;
+            font-size: clamp(16px, min(2.4vw, 3.2vh), 26px);
+            line-height: 1.35;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, .9);
+        }
+
+        .card-back-list li::before {
+            content: "⚡";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #ffd700;
+            font-size: clamp(16px, min(2.2vw, 3vh), 24px);
+            font-weight: 900;
+            text-shadow: 0 0 8px rgba(255, 215, 0, .6);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            bottom: 45px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .2);
+            background: rgba(20, 20, 30, .85);
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .2s ease;
+        }
+
+        .carousel-btn:hover {
+            background: #ffd700;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: 15px;
+        }
+
+        .carousel-btn.next {
+            right: 15px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 200;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .3);
+            cursor: pointer;
+            transition: .3s ease;
+        }
+
+        .dot.active {
+            background: #ffd700;
+            transform: scale(1.3);
+            box-shadow: 0 0 8px #ffd700;
+        }
+
+        /* MAIN PAGE ICON GRID */
+        #main .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            width: min(90%, 500px);
+            max-height: calc(100% - 60px);
+            overflow-y: auto;
+            padding: 12px;
+            margin: auto auto 0 auto;
+            align-content: start;
+        }
+
+        #main .matrix-card {
+            min-height: 100px;
+            padding: 18px 10px;
+            background: rgba(15, 16, 26, 0.9);
+            border: 1px solid rgba(0, 240, 255, 0.5);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #main .matrix-card:hover {
+            border-color: #ff007f;
+            transform: translateY(-4px);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.35);
+        }
+
+        #main .matrix-icon {
+            font-size: 2rem;
+            color: #fff;
+            filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.7));
+        }
+
+        #main .matrix-name {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* INTEGRATED COMPANY LAYOUT STYLES */
+        .company-layout-page {
+            display: none;
+            position: fixed;
+            top: 120px;
+            bottom: 64px;
+            left: 0;
+            right: 0;
+            background: #000;
+            z-index: 2800;
+            overflow: hidden;
+        }
+
+        .company-layout-page.active {
+            display: block;
+        }
+
+        /* INTEGRATED HEADER AND FOOTER */
+        .company-layout-page #topHeader,
+        .company-layout-page #bottomFooter {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 5px;
+            z-index: 1000;
+        }
+
+        .company-layout-page #topHeader {
+            top: 10px;
+        }
+
+        .company-layout-page #bottomFooter {
+            bottom: 10px;
+        }
+
+        /* GLOWING BUTTON */
+        .glow-btn {
+            position: relative;
+            width: clamp(260px, 90vw, 800px);
+            padding: clamp(10px, 1.5vh, 16px) clamp(20px, 3vw, 40px);
+            background: #111;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+        }
+
+        .glow-btn::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: 52px;
+            background: linear-gradient(45deg,
+                    #ffd700,
+                    #ffff00,
+                    #00ff66,
+                    #00e5ff);
+            background-size: 400%;
+            z-index: -1;
+            animation: glowingGradient 8s linear infinite;
+        }
+
+        .glow-btn::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: #0d0d13;
+            border-radius: 50px;
+            z-index: -1;
+        }
+
+        @keyframes glowingGradient {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            50% {
+                background-position: 300% 0%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+
+
+        /* RAINBOW 3D TEXT */
+        .btn-text-3d {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            font-family: Arial Black, Arial, sans-serif;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .btn-text-3d .char {
+            /* Dynamically scales based on the viewport/button width (Min: 9px, Fluid: 2.2vw, Max: 22px) */
+            font-size: clamp(9px, 3.7vw, 22px);
+            font-weight: 900;
+            margin: 0 clamp(1px, 0.1vw, 2px);
+            text-shadow: 1px 1px #000,
+                2px 2px #000,
+                3px 3px 5px #000;
+            flex-shrink: 0;
+        }
+
+        .btn-text-3d .space {
+            width: clamp(3px, 0.8vw, 10px);
+            flex-shrink: 0;
+        }
+
+        /* BLADE ACCENTS */
+        .hai-title-blade-accent {
+            width: min(80%, 450px);
+            height: 3px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    #00f0ff,
+                    #ff007f,
+                    transparent);
+            clip-path: polygon(0 50%, 20% 0, 80% 0,
+                    100% 50%, 80% 100%, 20% 100%);
+            margin-top: 25px;
+        }
+
+        .hai-title-blade-accents {
+            width: min(80%, 450px);
+            height: 3px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    #00f0ff,
+                    #ff007f,
+                    transparent);
+            clip-path: polygon(0 50%, 20% 0, 80% 0,
+                    100% 50%, 80% 100%, 20% 100%);
+            margin-top: 0;
+            margin-bottom: 19px;
+        }
+
+        /* MAIN PAGE IMAGE IN LAYOUT */
+        .company-layout-page #pageImage {
+            position: absolute;
+            top: 100px;
+            bottom: 100px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            z-index: 1;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .company-layout-page #pageImage img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 600px) {
+            .company-layout-page #pageImage {
+                top: 85px;
+                bottom: 85px;
+            }
+        }
+
+        /* SHARED PAGE STYLES */
+        .services-page,
+        .collaboration-page,
+        .payment-history-page,
+        .statement-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #050508;
+            z-index: 2600;
+            flex-direction: column;
+            align-items: center;
+            padding: clamp(16px, 3vw, 24px);
+            overflow-y: auto;
+            font-family: 'Rajdhani', sans-serif;
+            padding-bottom: 80px;
+        }
+
+        .services-page.active,
+        .collaboration-page.active,
+        .payment-history-page.active,
+        .statement-modal.active {
+            display: flex;
+        }
+
+        .social-opening-message {
+            position: fixed;
+            left: 50%;
+            bottom: 100px;
+            z-index: 3000;
+            padding: 12px 20px;
+            border: 1px solid rgba(0, 240, 255, .5);
+            border-radius: 12px;
+            background: rgba(5, 5, 8, .95);
+            color: #00f0ff;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            transform: translate(-50%, 10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s ease, transform .2s ease;
+        }
+
+        .social-opening-message.active {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        .social-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #00f0ff, #ff007f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .social-back-btn {
+            background: transparent;
+            border: 1px solid rgba(0, 240, 255, .4);
+            color: #00f0ff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* SERVICES PAGE */
+        .services-page-header {
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .services-search-wrapper {
+            width: min(100%, 650px);
+            display: flex;
+            align-items: center;
+            background: rgba(15, 16, 26, .9);
+            border: 1px solid rgba(0, 240, 255, .4);
+            border-radius: 30px;
+            padding: 6px 12px 6px 20px;
+            margin: 10px 0 16px 0;
+            box-shadow: 0 0 15px rgba(0, 240, 255, .15);
+        }
+
+        .services-search-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+        }
+
+        .services-search-input::placeholder {
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .ribbon-list-container {
+            width: min(100%, 650px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 24px;
+            max-height: 65vh;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .gold-pole {
+            position: absolute;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #ffe680, #d4af37, #8a6d1c);
+            z-index: 2;
+        }
+
+        .gold-pole.left {
+            left: 21px;
+        }
+
+        .gold-pole.right {
+            right: 21px;
+        }
+
+        .ribbon-stack {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        .ribbon-item {
+            width: 100%;
+            background: #fff;
+            color: #050508;
+            font-size: clamp(.95rem, 1.8vw, 1.15rem);
+            font-weight: 700;
+            padding: 12px 35px;
+            text-align: center;
+            text-transform: uppercase;
+            cursor: pointer;
+            clip-path: polygon(0 0, 26px 50%, 0 100%, 100% 100%, calc(100% - 26px) 50%, 100% 0);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* COLLABORATION PAGE */
+        .collab-header {
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .collab-content {
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .collab-card {
+            background: rgba(15, 16, 26, 0.85);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .collab-card h3 {
+            font-size: 1.2rem;
+            color: #00f0ff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .collab-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        .collab-btn {
+            background: linear-gradient(135deg, #00f0ff, #7a00ff);
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 10px;
+            align-self: flex-start;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* PAYMENT HISTORY PAGE */
+        .payment-history-page {
+            background: #000;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .payment-header {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .upi-page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #00f0ff, #ff007f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .upi-app-bar {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 20px;
+        }
+
+        .upi-header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .upi-header-right h2 {
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .statements-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .35);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: .88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .help-circle-icon,
+        .reveal-names-btn {
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .reveal-names-btn {
+            background: transparent;
+            border: 0;
+            font-size: 1.25rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            border-radius: 6px;
+        }
+
+        .upi-search-box {
+            width: 100%;
+            max-width: 500px;
+            background: #1c1c1e;
+            border-radius: 28px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .upi-search-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .upi-search-left i {
+            color: #8e8e93;
+            font-size: 1.1rem;
+        }
+
+        .upi-search-left input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 1.05rem;
+            width: 100%;
+        }
+
+        .upi-filter-btn {
+            padding-left: 12px;
+            border-left: 1px solid #323236;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .upi-month-summary {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 16px;
+            border-bottom: 1px solid #1c1c1e;
+            margin-bottom: 10px;
+            color: #8e8e93;
+            font-size: .95rem;
+        }
+
+        .upi-month-total {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .upi-transactions-list {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .upi-transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #141416;
+        }
+
+        .upi-tx-left {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .upi-tx-icon-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: #1c1c1e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            color: #fff;
+        }
+
+        .upi-tx-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .upi-tx-type,
+        .upi-tx-time {
+            font-size: .8rem;
+            color: #8e8e93;
+        }
+
+        .upi-tx-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .upi-tx-amount {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .upi-tx-amount.credited {
+            color: #30d158;
+        }
+
+        .upi-tx-amount.debited {
+            color: red;
+        }
+
+        .upi-tx-bank {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: .78rem;
+            color: #8e8e93;
+        }
+
+        .bank-badge {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #004b87;
+            color: #fff;
+            font-size: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upi-barcode-trigger {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            margin-top: 2px;
+            padding: 7px 9px 5px;
+            background: #f5f5f7;
+            border: 1px solid #d5d5da;
+            border-radius: 7px;
+            cursor: pointer;
+            max-width: 190px;
+        }
+
+        .barcode-art {
+            display: flex;
+            align-items: stretch;
+            gap: 2px;
+            height: 23px;
+        }
+
+        .barcode-art i {
+            display: block;
+            width: 2px;
+            background: #111;
+            height: 100%;
+        }
+
+        .barcode-art i:nth-child(3n) {
+            width: 4px;
+        }
+
+        .barcode-art i:nth-child(4n) {
+            height: 78%;
+        }
+
+        .barcode-art i:nth-child(5n) {
+            width: 1px;
+        }
+
+        .upi-barcode-trigger.payment-name-revealed {
+            background: transparent;
+            border-color: transparent;
+            color: #fff;
+            padding: 2px 0;
+            max-width: 220px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+            text-align: left;
+        }
+
+        /* STATEMENT MODAL */
+        .statement-modal {
+            background: #000;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .stmt-header {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 24px;
+        }
+
+        .stmt-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stmt-back-btn {
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .stmt-body {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .section-label {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .tab-pill-container {
+            width: 100%;
+            background: #1c1c1e;
+            border-radius: 12px;
+            padding: 4px;
+            display: flex;
+            margin-bottom: 16px;
+        }
+
+        .tab-pill {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-size: .95rem;
+            font-weight: 600;
+            color: #8e8e93;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .tab-pill.active {
+            background: #2c2c2e;
+            color: #fff;
+        }
+
+        .stmt-options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .stmt-option-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .stmt-option-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stmt-option-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .stmt-option-desc {
+            font-size: .85rem;
+            color: #8e8e93;
+        }
+
+        .circle-select,
+        .checkbox-select {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #8e8e93;
+        }
+
+        .circle-select {
+            border-radius: 50%;
+        }
+
+        .checkbox-select {
+            border-radius: 6px;
+        }
+
+        .circle-select.checked,
+        .checkbox-select.checked {
+            border: none;
+            background: #30d158;
+            color: #000;
+            font-size: .75rem;
+        }
+
+        .stmt-divider {
+            width: 100%;
+            height: 1px;
+            background: #1c1c1e;
+            margin: 8px 0;
+        }
+
+        .download-stmt-btn {
+            width: 100%;
+            max-width: 500px;
+            background: #8028f5;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        /* PAYMENT UNLOCK MODAL */
+        .payment-unlock-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            background: rgba(0, 0, 0, .78);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .payment-unlock-modal.active {
+            display: flex;
+        }
+
+        .payment-unlock-card {
+            width: 100%;
+            max-width: 380px;
+            padding: 24px;
+            border: 1px solid rgba(0, 240, 255, .45);
+            border-radius: 16px;
+            background: #15151b;
+            color: #fff;
+        }
+
+        .payment-unlock-card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .payment-unlock-card p {
+            color: #aaaab4;
+            font-size: .9rem;
+            margin-bottom: 16px;
+        }
+
+        .payment-unlock-card input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #454550;
+            background: #08080c;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .payment-unlock-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .payment-unlock-actions button {
+            flex: 1;
+            padding: 11px;
+            border: 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        #unlockPaymentBtn {
+            background: #8028f5;
+            color: #fff;
+        }
+
+        #cancelPaymentUnlockBtn,
+        #closePaymentDetailsBtn {
+            background: #303039;
+            color: #fff;
+        }
+
+        .payment-detail-list {
+            margin-top: 14px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .payment-detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            border-bottom: 1px solid #303039;
+            padding-bottom: 8px;
+            color: #fff;
+        }
+
+        /* FOOTER */
+        .app-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 16, .95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 240, 255, .2);
+            height: 64px;
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        .app-footer .footer-nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .app-footer button,
+        .app-footer a {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            width: 48px;
+            height: 44px;
+            border-radius: 12px;
+            transition: color .2s ease, background .2s ease, transform .2s ease;
+        }
+
+        .app-footer button:hover,
+        .app-footer button:focus-visible {
+            color: #00f0ff;
+            background: rgba(0, 240, 255, .12);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .top-action-row {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+        }
+
+        /* Lightning stays on the left */
+        .top-action-row .lightning-btn {
+            position: absolute;
+            left: 15px;
+            top: 0;
+        }
+
+        /* Colourful blinking COMPANY text */
+        .company-text {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 1000;
+            letter-spacing: 2px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+
+            text-align: center;
+            background: linear-gradient(90deg,
+                    #ff0000,
+                    #ff8c00,
+                    #ffff00,
+                    #00ff00,
+                    #ff0000,
+                    #ff8c00,
+                    #ff1493);
+
+            background-size: 300% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+
+            animation:
+                companyBlink 1s infinite,
+                companyColors 4s linear infinite;
+        }
+
+        @keyframes companyBlink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.15;
+            }
+        }
+
+        @keyframes companyColors {
+            from {
+                background-position: 0% center;
+            }
+
+            to {
+                background-position: 300% center;
+            }
+        }
+
+        .matrix-icon {
+            font-size: 1.8rem;
+            color: #ffffff;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+        }
+    </style>
+</head>
+
+<body>
+
+    <header onclick="window.open('https://www.haisuperhero.com', '_blank')" id="header"></header>
+
+    <main id="main">
+        <div class="image-wrapper" id="imageWrapper">
+
+            <div class="top-action-row">
+
+                <div class="lightning-btn" id="lightningBtn" aria-label="Open highlights">⚡</div>
+
+                <p class="company-text" id="companyBtn">
+                    COMPANY
+                </p>
+
+            </div>
+            <div class="matrix-grid" id="matrixGrid1">
+
+                <div class="matrix-card" onclick="window.open('https://www.universalinstitution.com', '_blank')">
+                    <i class="fa-solid fa-school matrix-icon"></i>
+                    <span class="matrix-name">SCHOOL</span>
+                </div>
+
+                <div class="matrix-card" onclick="window.open('https://www.sirchildren.com', '_blank')">
+                    <i class="fa-solid fa-user matrix-icon"></i>
+                    <span class="matrix-name">CHILDREN</span>
+                </div>
+
+                <div class="matrix-card" onclick="window.open('https://www.universalstartups.com', '_blank')">
+                    <i class="fa-solid fa-rocket matrix-icon"></i>
+                    <span class="matrix-name">Start-Ups</span>
+                </div>
+
+                <div onclick="window.open('https://www.universaleducations.com', '_blank')" class="matrix-card"><i class="fa-solid fa-graduation-cap matrix-icon"></i><span class="matrix-name">Scholarships</span></div>
+                <div onclick="window.open('https://www.universaleducations.com', '_blank')" class="matrix-card"><i class="fa-solid fa-book matrix-icon"></i><span class="matrix-name">COURSES</span></div>
+                <div class="matrix-card" id="paymentNavBtn" role="button" tabindex="0">
+                    <i class="fa-solid fa-indian-rupee-sign matrix-icon"></i><span class="matrix-name">Payments</span>
+                </div>
+            </div>
+            <div class="matrix-grid" id="matrixGrid2" style="display: none;">
+                <div onclick="window.open('https://www.haisuperhero.com', '_blank')" class="matrix-card"><i class="fa-solid fa-laptop-code matrix-icon"></i><span class="matrix-name">Websites</span></div>
+                <div onclick="window.open('https://www.haisuperhero.com', '_blank')" class="matrix-card"><i class="fa-solid fa-mobile-screen-button matrix-icon"></i><span class="matrix-name">Apps</span></div>
+                <div onclick="window.open('https://www.haisuperhero.com', '_blank')" class="matrix-card"><i class="fa-solid fa-chart-line matrix-icon"></i><span class="matrix-name">Marketing</span></div>
+                <div onclick="window.open('https://www.haisuperhero.com', '_blank')" class="matrix-card" aria-label="TRUST">
+                    <i class="fa-solid fa-shield-halved matrix-icon"></i><span class="matrix-name">TRUST</span>
+                </div>
+
+                <div onclick="window.open('https://www.haisuperhero.com', '_blank')" class="matrix-card"><i class="fa-solid fa-briefcase matrix-icon"></i><span class="matrix-name">Join Team</span></div>
+                <!-- Inside matrixGrid2 -->
+                <div class="matrix-card" id="matrixCollabCard" aria-label="Collaborations" onclick="openProjectsPage()">
+                    <i class="fa-solid fa-handshake matrix-icon"></i><span class="matrix-name">Collab</span>
+                </div>
+
+            </div>
+
+            <div class="grid-carousel-row" role="navigation" aria-label="Matrix Grid Navigation">
+                <a href="tel:9963935878" class="corner-floating-icon left-icon" aria-label="Call Us">
+                    <i class="fa-solid fa-phone"></i>
+                </a>
+
+                <div class="grid-carousel-dots">
+                    <div class="grid-dot active" id="gridDot1" title="School and Education"></div>
+                    <div class="grid-dot" id="gridDot2" title="HAI Services"></div>
+                </div>
+
+                <a href="https://www.haisuperhero.com/chat" class="corner-floating-icon right-icon" aria-label="Open HAI SuperHero Website" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-message"></i>
+                </a>
+            </div>
+
+            <div class="carousel-overlay" id="carouselOverlay">
+                <button class="carousel-btn prev" id="prevBtn">❮</button>
+                <button class="carousel-btn next" id="nextBtn">❯</button>
+                <div class="carousel-container">
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-slide">
+                            <div class="flip-card">
+                                <div class="flip-card-front"><img src="https://cdn.corenexis.com/f/ZBOjpooG2zC.jpg" alt="HEAWEN"></div>
+                                <div class="flip-card-back">
+                                    <div class="card-back-content">
+                                        <h2 class="card-back-title">WORLD OF EDUCATION</h2>
+                                        <ul class="card-back-list">
+                                            <li style="font-size:13px">FROM "THE FIRST STEP OF LEARNING"<br>TO "THE HIGHEST LEVEL OF EDUCATION"</li>
+                                            <li>KG TO PG:<br>ONE COMPLETE ECOSYSTEM</li>
+                                            <li>OFFLINE AND ONLINE<br>ALL EDUCATIONAL RESOURCES</li>
+                                            <li>STUDENTS - TEACHERS - INSTITUTES</li>
+                                            <li>EDUCATIONAL QUERIES:<br>📞 9963935878</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="flip-card">
+                                <div class="flip-card-front"><img src="https://cdn.corenexis.com/f/eJQQU5hevEg.png" alt="HEAWEN Educational World"></div>
+                                <div class="flip-card-back">
+                                    <div class="card-back-content">
+                                        <h2 class="card-back-title">EDUCATIONAL TRUST</h2>
+                                        <ul class="card-back-list">
+                                            <li>I LOVE CHILDREN</li>
+                                            <li>EVERY CHILD IS MY CHILD</li>
+                                            <li>SPECIALLY ORPHANGE STUDENTS<br>CHILDREN WITH DISABILITIES<br>POOR STUDENTS . . .</li>
+                                            <li style="font-size:12px">EVERYONE WILL GET EQUAL OPPURTUNITES</li>
+                                            <li style="font-size:13px">NO TERMS AND CONDITIONS APPLIES</li>
+                                            <li>EDUCATIONAL QUERIES:<br>📞 9963935878</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="flip-card">
+                                <div class="flip-card-front"><img src="https://cdn.corenexis.com/f/xOp4cDwaCXF.png" alt="HIDL Card Scholarships"></div>
+                                <div class="flip-card-back">
+                                    <div class="card-back-content">
+                                        <h2 class="card-back-title">HiDL SCHOLARSHIP CARD</h2>
+                                        <ul class="card-back-list">
+                                            <li>EDUCATIONAL SUPPORT</li>
+                                            <li>FINANCIAL SUPPORT FOR<br>QUALIFIED MERIT STUDENTS</li>
+                                            <li>EXAM BASED ELIGIBILTY</li>
+                                            <li>LIFELONG SUPPORT FOR CHILDREN</li>
+                                            <li>SPECIAL BENIFITS</li>
+                                            <li>CLAIM COMPLETE ACADEMICS FEE</li>
+                                            <li>EDUCATIONAL QUERIES:<br>📞 9963935878</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="flip-card">
+                                <div class="flip-card-front"><img src="https://cdn.corenexis.com/f/0CmbFAkuLBI.jpeg" alt="Education Universe"></div>
+                                <div class="flip-card-back">
+                                    <div class="card-back-content">
+                                        <h2 class="card-back-title">HARSHA SIR STARTS</h2>
+                                        <ul class="card-back-list">
+                                            <li>WE WILL FULFILL<br>YOUR DREAMS, YOUR AIMS,<br>YOUR TARGETS, YOUR GOALS</li>
+                                            <li>IF YOU DEFINED<br>BY YOUR SKILLS AND TALENTS,<br>THEN WE WILL BUILD YOUR FUTURE</li>
+                                            <li>IF YOU HAVE THE VISION,<br>WE WILL TURN IT INTO REALITY</li>
+                                            <li>IF YOU HAVE AN<br>INNOVATIVE IDEAS,<br>WE WILL TO GIVE IT A LIFE</li>
+                                            <li>EDUCATIONAL QUERIES:<br>📞 9963935878</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="flip-card">
+                                <div class="flip-card-front"><img src="https://cdn.corenexis.com/f/aHP60NmEpNX.png" alt="hAI Super Hero"></div>
+                                <div class="flip-card-back">
+                                    <div class="card-back-content">
+                                        <h2 class="card-back-title">Service Overview 05</h2>
+                                        <ul class="card-back-list">
+                                            <li>AI-powered digital assistance</li>
+                                            <li>Technology and software solutions</li>
+                                            <li>Innovation and entrepreneurship support</li>
+                                            <li>A complete digital superhero ecosystem</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- INTEGRATED COMPANY PAGE LAYOUT -->
+    <section class="company-layout-page" id="companyLayoutPage">
+        <!-- TOP HEADER -->
+        <header id="topHeader">
+            <button class="glow-btn" type="button" onclick="window.open('https://www.haisuperhero.com', '_blank')" aria-label="HUMAN'S ARTIFICIAL INTELLIGENCE">
+                <span class="btn-text-3d">
+                    HUMAN'S ARTIFICIAL INTELLIGENCE
+                </span>
+            </button>
+
+            <div class="hai-title-blade-accent"></div>
+        </header>
+
+        <!-- MAIN IMAGE -->
+        <main id="pageImage">
+            <img src="https://cdn.corenexis.com/f/nGzf1xyk.png" onclick="window.open('https://www.haisuperhero.com', '_blank')" alt="HUMAN'S ARTIFICIAL INTELLIGENCE">
+        </main>
+
+        <!-- BOTTOM FOOTER -->
+        <footer id="bottomFooter">
+            <!-- ACCENT FIRST -->
+            <div class="hai-title-blade-accents"></div>
+
+            <!-- BUTTON BELOW ACCENT -->
+            <button class="glow-btn" type="button" onclick="window.open('https://www.haisuperhero.com', '_blank')" aria-label="UNIVERSAL SERVICES PLATFORM">
+                <span class="btn-text-3d">
+                    UNIVERSAL SERVICES PLATFORM
+                </span>
+            </button>
+        </footer>
+    </section>
+
+    <!-- SERVICES PAGE -->
+    <section class="services-page" id="servicesPage">
+        <div class="services-page-header">
+            <h2 onclick="window.open('https://www.haisuperhero.com', '_blank')" class="social-title">UNIVERSAL SERVICES</h2>
+            <button class="social-back-btn" id="servicesBackBtn"><i class="fa-solid fa-arrow-left"></i></button>
+        </div>
+        <div class="services-search-wrapper">
+            <input type="text" class="services-search-input" id="servicesSearchInput" placeholder="Search services...">
+            <i class="fa-solid fa-magnifying-glass" style="color:#00f0ff;padding:0 8px;"></i>
+        </div>
+        <div class="ribbon-list-container">
+            <div class="gold-pole left"></div>
+            <div class="gold-pole right"></div>
+            <div class="ribbon-stack" onclick="window.open('https://www.haisuperhero.com', '_blank')" id="ribbonStack">
+                <div class="ribbon-item">SOFTWARE SERVICES</div>
+                <div class="ribbon-item">WEBSITE DEVELOPMENT</div>
+                <div class="ribbon-item">FRONTEND - BACKEND</div>
+                <div class="ribbon-item">APP DEVELOPMENT</div>
+                <div class="ribbon-item">BUILD START-UPS</div>
+                <div class="ribbon-item">CUSTOM PLATFORMS</div>
+                <div class="ribbon-item">INCUBATION SUPPORT</div>
+                <div class="ribbon-item">BUSINESSES DEVELOPMENT</div>
+                <div class="ribbon-item">E-COMMERCE DEVELOPMENT</div>
+                <div class="ribbon-item">DOMAIN, DEPLOYMENT & WEB HOSTING</div>
+                <div class="ribbon-item">TECHNICAL TEAM, ASSISTANCE TEAM</div>
+                <div class="ribbon-item">CODE PROGRAMMING</div>
+                <div class="ribbon-item">FREELANCING</div>
+                <div class="ribbon-item">ARTIFICIAL INTELLIGENCE</div>
+                <div class="ribbon-item">MACHINE LEARNING / DEEP LEARNING (ML / DL)</div>
+                <div class="ribbon-item">AI INTEGRATIONS & AUTOMATION SOLUTIONS</div>
+                <div class="ribbon-item">API DEVELOPMENT & INTEGRATION</div>
+                <div class="ribbon-item">DATA SCIENCE</div>
+                <div class="ribbon-item">CYBER SECURITY</div>
+                <div class="ribbon-item">BUILD PORTFOLIO, PROJECTS, CV, RESUME</div>
+                <div class="ribbon-item">CLOUD COMPUTING, CLOUD SOLUTIONS</div>
+                <div class="ribbon-item">COMPUTER NETWORKS</div>
+                <div class="ribbon-item">GRAPHIC DESIGN</div>
+                <div class="ribbon-item">UI/UX DESIGN</div>
+                <div class="ribbon-item">PLUGINS DEVELOPMENT</div>
+                <div class="ribbon-item">SERVER CONFIGURATION & MANAGEMENT</div>
+                <div class="ribbon-item">PROTOTYPE DEVELOPMENT</div>
+                <div class="ribbon-item">DATABASE MANAGEMENT</div>
+                <div class="ribbon-item">DevOps & CI/CD Solutions</div>
+                <div class="ribbon-item">EVENT MANAGEMENT</div>
+                <div class="ribbon-item">DIGITAL MARKETING & BRANDING</div>
+                <div class="ribbon-item">SOCIAL MEDIA MANAGEMENT</div>
+                <div class="ribbon-item">CONTENT CREATION</div>
+                <div class="ribbon-item">INFLUENCER MARKETING</div>
+                <div class="ribbon-item">CUSTOMER RELATIONSHIP MANAGEMENT (CRM)</div>
+                <div class="ribbon-item">ENTERPRISE RESOURCE PLANNING</div>
+                <div class="ribbon-item">ADMINISTRATIVE DASHBOARDS</div>
+                <div class="ribbon-item">WORKFLOWS, SALES & OPERATIONS MANAGEMENT</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COLLABORATION PAGE -->
+    <section class="collaboration-page" id="collaborationPage">
+        <div class="collab-header">
+            <h1 class="social-title">Collaborations</h1>
+            <button class="social-back-btn" id="collabBackBtn"><i class="fa-solid fa-arrow-left"></i> Back</button>
+        </div>
+        <div class="collab-content">
+            <div class="collab-card">
+                <h3>Partner with HAI</h3>
+                <p>Join forces with Human's Artificial Intelligence to build next-generation software, scalable startups, and innovative tech ecosystems.</p>
+                <button class="collab-btn" onclick="alert('Initiating Partnership Request...')">Partner Up</button>
+            </div>
+            <div class="collab-card">
+                <h3>Enterprise & Academic Alliances</h3>
+                <p>We collaborate with universities, research institutions, and enterprises to pioneer advanced AI research, student skill programs, and joint developments.</p>
+                <button class="collab-btn" onclick="alert('Opening Alliance Form...')">Join Alliance</button>
+            </div>
+            <div class="collab-card">
+                <h3>Creator & Influencer Network</h3>
+                <p>Are you a tech creator, educator, or promoter? Partner with our universal startup to scale your impact and share cutting-edge tech solutions.</p>
+                <button class="collab-btn" onclick="alert('Connecting with Creators...')">Collaborate Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAYMENT HISTORY PAGE -->
+    <section class="payment-history-page" id="paymentHistoryPage">
+        <div class="payment-header">
+            <h1 class="upi-page-title">Our StartUp Payments</h1>
+            <button class="social-back-btn" id="paymentBackBtn"><i class="fa-solid fa-arrow-left"></i></button>
+        </div>
+        <div class="upi-app-bar">
+            <div class="upi-header-right">
+                <h2>History</h2>
+                <button class="statements-btn" id="openStatementBtn"><i class="fa-regular fa-circle-down"></i> Statements</button>
+                <i class="fa-regular fa-circle-question help-circle-icon" id="helpCircleIcon" role="button" tabindex="0"></i>
+                <button class="reveal-names-btn" id="revealNamesBtn" aria-label="Reveal all payment names">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        <div class="upi-search-box">
+            <div class="upi-search-left">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search" aria-label="Search payments">
+            </div>
+            <div class="upi-filter-btn"><i class="fa-solid fa-sliders"></i></div>
+        </div>
+        <div class="upi-month-summary">
+            <span>October 2026</span>
+            <span class="upi-month-total">₹1,550.9 <i class="fa-solid fa-chevron-right"></i></span>
+        </div>
+        <div class="upi-transactions-list">
+            <div class="upi-transaction-item">
+                <div class="upi-tx-left">
+                    <div class="upi-tx-icon-circle"><i class="fa-solid fa-arrow-up-right-from-square" style="transform:rotate(180deg)"></i></div>
+                    <div class="upi-tx-details">
+                        <span class="upi-tx-type">Received from</span>
+                        <button class="upi-barcode-trigger" type="button" data-payment-name="SVU DEVELOPERS PVT LTD" data-payment-type="Received from" data-payment-date="18 Oct 2026" data-payment-amount="+ ₹2,000" data-payment-direction="Credited to">
+                            <span class="barcode-art"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                        </button>
+                        <span class="upi-tx-time">18 Oct 2026</span>
+                    </div>
+                </div>
+                <div class="upi-tx-right">
+                    <span class="upi-tx-amount credited">+ ₹2,000</span>
+                    <span class="upi-tx-bank">Credited to <span class="bank-badge">🏦</span></span>
+                </div>
+            </div>
+            <div class="upi-transaction-item">
+                <div class="upi-tx-left">
+                    <div class="upi-tx-icon-circle"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+                    <div class="upi-tx-details">
+                        <span class="upi-tx-type">Paid to</span>
+                        <button class="upi-barcode-trigger" type="button" data-payment-name="CSC DigiSign" data-payment-type="Paid to" data-payment-date="03 Oct 2026" data-payment-amount="₹2,000" data-payment-direction="Debited from">
+                            <span class="barcode-art"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                        </button>
+                        <span class="upi-tx-time">03 Oct 2026</span>
+                    </div>
+                </div>
+                <div class="upi-tx-right">
+                    <span class="upi-tx-amount debited">- ₹2,000</span>
+                    <span class="upi-tx-bank">Debited from <span class="bank-badge">🏦</span></span>
+                </div>
+            </div>
+            <div class="upi-month-summary">
+                <span>September 2026</span>
+                <span class="upi-month-total">₹1,550.9 <i class="fa-solid fa-chevron-right"></i></span>
+            </div>
+            <div class="upi-transaction-item">
+                <div class="upi-tx-left">
+                    <div class="upi-tx-icon-circle"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+                    <div class="upi-tx-details">
+                        <span class="upi-tx-type">Paid to</span>
+                        <button class="upi-barcode-trigger" type="button" data-payment-name="HOSTINGER" data-payment-type="Paid to" data-payment-date="02 Sept 2026" data-payment-amount="₹6,751.49" data-payment-direction="Debited from">
+                            <span class="barcode-art"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                        </button>
+                        <span class="upi-tx-time">02 Sept 2026</span>
+                    </div>
+                </div>
+                <div class="upi-tx-right">
+                    <span class="upi-tx-amount debited">- ₹6,751.49</span>
+                    <span class="upi-tx-bank">Debited from <span class="bank-badge">🏦</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATEMENT MODAL -->
+    <section class="statement-modal" id="statementModal">
+        <div class="stmt-header">
+            <div class="stmt-header-left">
+                <i class="fa-solid fa-arrow-left stmt-back-btn" id="closeStmtBtn" role="button" tabindex="0"></i>
+                <h2 class="social-title">Our Start-Up Statement</h2>
+            </div>
+            <i class="fa-regular fa-circle-question help-circle-icon"></i>
+        </div>
+        <div class="stmt-body">
+            <div>
+                <div class="section-label">Statement Period</div>
+                <div class="tab-pill-container">
+                    <div class="tab-pill active" id="tabRange" role="button" tabindex="0">Range</div>
+                    <div class="tab-pill" id="tabFY" role="button" tabindex="0">Financial year</div>
+                </div>
+                <div class="stmt-options-group" id="rangeOptions">
+                    <div class="stmt-option-row" onclick="selectRangeOption(this)"><span class="stmt-option-title">Last 30 days</span>
+                        <div class="circle-select checked"><i class="fa-solid fa-check"></i></div>
+                    </div>
+                    <div class="stmt-option-row" onclick="selectRangeOption(this)"><span class="stmt-option-title">Last 90 days</span>
+                        <div class="circle-select"></div>
+                    </div>
+                    <div class="stmt-option-row" onclick="selectRangeOption(this)"><span class="stmt-option-title">Last 180 days</span>
+                        <div class="circle-select"></div>
+                    </div>
+                    <div class="stmt-option-row" onclick="selectRangeOption(this)"><span class="stmt-option-title">Last 365 days</span>
+                        <div class="circle-select"></div>
+                    </div>
+                </div>
+                <div class="stmt-options-group" id="fyOptions" style="display:none">
+                    <div class="stmt-option-row" onclick="selectFyOption(this)"><span class="stmt-option-title">Current FY</span>
+                        <div class="circle-select checked"><i class="fa-solid fa-check"></i></div>
+                    </div>
+                    <div class="stmt-option-row" onclick="selectFyOption(this)"><span class="stmt-option-title">FY 2025 - 2026</span>
+                        <div class="circle-select"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="stmt-divider"></div>
+            <div>
+                <div class="section-label">File Type</div>
+                <div class="stmt-options-group">
+                    <div class="stmt-option-row" onclick="selectFileType(this)">
+                        <div class="stmt-option-text"><span class="stmt-option-title">PDF</span><span class="stmt-option-desc">Suitable for viewing on mobile and sharing</span></div>
+                        <div class="checkbox-select checked"><i class="fa-solid fa-check"></i></div>
+                    </div>
+                    <div class="stmt-option-row" onclick="selectFileType(this)">
+                        <div class="stmt-option-text"><span class="stmt-option-title">CSV</span><span class="stmt-option-desc">Suitable for analysis in spreadsheets</span></div>
+                        <div class="checkbox-select"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="download-stmt-btn" onclick="alert('Downloading Statement...')">Download Statement</button>
+        </div>
+    </section>
+
+    <!-- PASSWORD-PROTECTED PAYMENT DETAILS MODAL -->
+    <section class="payment-unlock-modal" id="paymentUnlockModal" role="dialog" aria-modal="true">
+        <div class="payment-unlock-card">
+            <div id="paymentPasswordView">
+                <h2><i class="fa-solid fa-lock"></i> Protected Payment Details</h2>
+                <p>We strictly adhere to all the government bodies and laws, ensuring every paisa is transparent, traceable, and fully accountable to the government.</p>
+                <form id="paymentPasswordForm">
+                    <input id="paymentDetailsPassword" type="password" placeholder="Enter password" autocomplete="current-password" required>
+                    <div class="payment-unlock-actions">
+                        <button type="submit" id="unlockPaymentBtn">Unlock Details</button>
+                        <button type="button" id="cancelPaymentUnlockBtn">Cancel</button>
+                    </div>
+                    <div id="paymentPasswordError" style="color:#ff6b81;margin-top:8px;font-size:0.85rem;" aria-live="polite"></div>
+                </form>
+            </div>
+            <div id="paymentDetailsView" hidden>
+                <h2><i class="fa-solid fa-receipt"></i> Payment Details</h2>
+                <div class="payment-detail-list" id="paymentDetailList"></div>
+                <div class="payment-unlock-actions" style="margin-top:18px">
+                    <button type="button" id="closePaymentDetailsBtn">Close Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PAGE 4 - OUR PROJECTS (MILESTONE COLLABORATIONS) -->
+    <section class="page-container" id="projectsPage" style="display: none; position: fixed; inset: 0; z-index: 2600; overflow-y: auto; background: linear-gradient(135deg, #07111f, #101827, #172033); color: white;">
+        <header class="projects-header" style="position: sticky; top: 0; z-index: 100; background: rgba(15, 23, 42, 0.97); backdrop-filter: blur(10px); padding: 18px 20px; display: flex; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0, 188, 212, 0.5); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);">
+            <h1 style="color: #00e5ff; font-size: 18px; font-weight: 800; letter-spacing: 1px; margin: 0;">Our Milestone Collaborations</h1>
+        </header>
+
+        <div class="projects-passage" style="max-width: 900px; margin: 30px auto 10px auto; padding: 0 20px; text-align: center; font-size: 15px; font-weight: 800; line-height: 1.6; color: #ffffff;">
+            Though we collaborated with a huge number of businesses for their complete software developments. Few of these will stay forever in our hearts because our journey takes milestone turns with these special collaborations.
+        </div>
+
+        <div class="projects-carousel" style="width: 95%; max-width: 1000px; height: 350px; margin: 20px auto 40px auto; position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55);">
+            <div class="projects-track" id="projectsTrack" style="display: flex; height: 350px; transition: transform 0.6s ease;"></div>
+
+            <div class="projects-carousel-buttons" style="position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); display: flex; justify-content: space-between; padding: 0 15px; pointer-events: none;">
+                <button onclick="prevProject()" style="width: 50px; height: 50px; border: none; border-radius: 50%; background: rgba(255, 255, 255, 0.8); color: #111827; font-size: 20px; font-weight: bold; cursor: pointer; pointer-events: auto;">❮</button>
+                <button onclick="nextProject()" style="width: 50px; height: 50px; border: none; border-radius: 50%; background: rgba(255, 255, 255, 0.8); color: #111827; font-size: 20px; font-weight: bold; cursor: pointer; pointer-events: auto;">❯</button>
+            </div>
+
+            <div class="projects-carousel-dots" id="projectsDots" style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10;"></div>
+        </div>
+    </section>
+
+
+    <div class="social-opening-message" id="socialOpeningMessage" role="status" aria-live="polite">
+        OPENING SOCIAL MEDIA WEBSITE
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+        <div class="footer-nav-content">
+            <button id="chromeNavBtn" aria-label="Services" title="Services">
+                <i class="fa-brands fa-chrome matrix-icon"></i>
+            </button>
+            <button id="homeNavBtn" aria-label="Home" title="Home">
+                <i class="fa-solid fa-house matrix-icon"></i>
+            </button>
+            <button id="socialNavBtn" aria-label="Social media" title="Social media">
+                <i class="fa-solid fa-bullhorn matrix-icon"></i>
+            </button>
+
+        </div>
+    </footer>
+
+    <script>
+        // ── CAROUSEL ──
+        const lightningBtn = document.getElementById("lightningBtn");
+        const carouselOverlay = document.getElementById("carouselOverlay");
+        const carouselTrack = document.getElementById("carouselTrack");
+        const imageWrapper = document.getElementById("imageWrapper");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const carouselDots = document.getElementById("carouselDots");
+        const slides = Array.from(carouselTrack.querySelectorAll(".carousel-slide"));
+        const flipCards = Array.from(document.querySelectorAll(".flip-card"));
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        carouselTrack.style.width = `${totalSlides * 100}%`;
+        slides.forEach(s => {
+            s.style.flex = `0 0 ${100/totalSlides}%`;
+            s.style.width = `${100/totalSlides}%`;
+        });
+
+        function resetCardFlips() {
+            flipCards.forEach(c => c.classList.remove("flipped"));
+        }
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement("div");
+            dot.className = "dot" + (i === 0 ? " active" : "");
+            dot.addEventListener("click", e => {
+                e.stopPropagation();
+                goToSlide(i);
+            });
+            carouselDots.appendChild(dot);
+        });
+        const dots = Array.from(carouselDots.children);
+
+        function updateCarousel() {
+            resetCardFlips();
+            carouselTrack.style.transform = `translate3d(-${currentIndex*(100/totalSlides)}%,0,0)`;
+            dots.forEach((d, i) => d.classList.toggle("active", i === currentIndex));
+        }
+
+        function goToSlide(i) {
+            currentIndex = (i + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        flipCards.forEach(c => c.addEventListener("click", e => {
+            e.stopPropagation();
+            c.classList.toggle("flipped");
+        }));
+
+        lightningBtn.addEventListener("click", e => {
+            e.stopPropagation();
+            const open = carouselOverlay.classList.contains("active");
+            const gridCarouselRow = document.querySelector(".grid-carousel-row");
+
+            if (open) {
+                resetCardFlips();
+                carouselOverlay.classList.remove("active");
+                imageWrapper.classList.remove("hide-bg");
+                if (gridCarouselRow) gridCarouselRow.style.display = "flex";
+            } else {
+                carouselOverlay.classList.add("active");
+                imageWrapper.classList.add("hide-bg");
+                if (gridCarouselRow) gridCarouselRow.style.display = "none";
+                updateCarousel();
+            }
+        });
+        nextBtn.addEventListener("click", e => {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        });
+        prevBtn.addEventListener("click", e => {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        });
+
+        // ── PAGE MANAGEMENT ──
+        const servicesPage = document.getElementById('servicesPage');
+        const collaborationPage = document.getElementById('collaborationPage');
+        const paymentHistoryPage = document.getElementById('paymentHistoryPage');
+        const statementModal = document.getElementById('statementModal');
+        const companyLayoutPage = document.getElementById('companyLayoutPage');
+        const projectsPage = document.getElementById('projectsPage');
+
+        // ── GRID CAROUSEL DOTS & MATRIX GRID SWITCHING ──
+        const matrixGrid1 = document.getElementById('matrixGrid1');
+        const matrixGrid2 = document.getElementById('matrixGrid2');
+        const gridDot1 = document.getElementById('gridDot1');
+        const gridDot2 = document.getElementById('gridDot2');
+
+        function closeAllPages() {
+            [servicesPage, paymentHistoryPage, statementModal, companyLayoutPage, projectsPage]
+            .forEach(p => {
+                if (p) {
+                    p.classList.remove('active');
+                    if (p === projectsPage) p.style.display = 'none';
+                }
+            });
+        }
+
+
+
+        function showGrid(gridNumber) {
+            closeAllPages();
+            carouselOverlay.classList.remove('active');
+            imageWrapper.classList.remove('hide-bg');
+            if (gridNumber === 1) {
+                matrixGrid1.style.display = 'grid';
+                matrixGrid2.style.display = 'none';
+                gridDot1.classList.add('active');
+                gridDot2.classList.remove('active');
+            } else {
+                matrixGrid1.style.display = 'none';
+                matrixGrid2.style.display = 'grid';
+                gridDot2.classList.add('active');
+                gridDot1.classList.remove('active');
+            }
+        }
+
+        gridDot1.addEventListener('click', () => showGrid(1));
+        gridDot2.addEventListener('click', () => showGrid(2));
+
+        document.getElementById('homeNavBtn').addEventListener('click', () => showGrid(1));
+
+        document.getElementById('companyBtn').addEventListener('click', () => {
+            closeAllPages();
+            companyLayoutPage.classList.add('active');
+        });
+
+        document.getElementById('chromeNavBtn').addEventListener('click', () => {
+            closeAllPages();
+            servicesPage.classList.add('active');
+        });
+
+        document.getElementById('socialNavBtn').addEventListener('click', () => {
+            const websiteWindow = window.open('about:blank', '_blank');
+            const socialOpeningMessage = document.getElementById('socialOpeningMessage');
+            socialOpeningMessage.classList.add('active');
+
+            if (websiteWindow) {
+                websiteWindow.document.title = 'Opening Social Media Website';
+                websiteWindow.document.body.textContent = 'OPENING SOCIAL MEDIA WEBSITE ...';
+                websiteWindow.document.body.style.cssText = 'margin:0;min-height:100vh;display:grid;place-items:center;background:#050508;color:#00f0ff;font:700 1.25rem Rajdhani,sans-serif;';
+            }
+
+            window.setTimeout(() => {
+                socialOpeningMessage.classList.remove('active');
+                if (websiteWindow && !websiteWindow.closed) {
+                    websiteWindow.location.href = 'https://www.companyinfinity.com';
+                } else {
+                    window.location.href = 'https://www.companyinfinity.com';
+                }
+            }, 1000);
+        });
+
+        const paymentNavBtn = document.getElementById('paymentNavBtn');
+
+        function openPaymentHistoryPage() {
+            closeAllPages();
+            paymentHistoryPage.classList.add('active');
+            paymentHistoryPage.scrollTop = 0;
+        }
+        paymentNavBtn.addEventListener('click', openPaymentHistoryPage);
+        paymentNavBtn.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openPaymentHistoryPage();
+            }
+        });
+
+        document.getElementById('servicesBackBtn').addEventListener('click', () => servicesPage.classList.remove('active'));
+        document.getElementById('collabBackBtn').addEventListener('click', () => collaborationPage.classList.remove('active'));
+        document.getElementById('paymentBackBtn').addEventListener('click', () => paymentHistoryPage.classList.remove('active'));
+        document.getElementById('openStatementBtn').addEventListener('click', () => statementModal.classList.add('active'));
+        document.getElementById('helpCircleIcon').addEventListener('click', () => statementModal.classList.add('active'));
+        document.getElementById('closeStmtBtn').addEventListener('click', () => statementModal.classList.remove('active'));
+
+        // ── STATEMENT TABS ──
+        const tabRange = document.getElementById('tabRange');
+        const tabFY = document.getElementById('tabFY');
+        tabRange.addEventListener('click', () => {
+            tabRange.classList.add('active');
+            tabFY.classList.remove('active');
+            document.getElementById('rangeOptions').style.display = 'flex';
+            document.getElementById('fyOptions').style.display = 'none';
+        });
+        tabFY.addEventListener('click', () => {
+            tabFY.classList.add('active');
+            tabRange.classList.remove('active');
+            document.getElementById('fyOptions').style.display = 'flex';
+            document.getElementById('rangeOptions').style.display = 'none';
+        });
+
+        function selectRangeOption(el) {
+            document.querySelectorAll('#rangeOptions .circle-select').forEach(i => {
+                i.classList.remove('checked');
+                i.replaceChildren();
+            });
+            const c = el.querySelector('.circle-select');
+            c.classList.add('checked');
+            c.innerHTML = '<i class="fa-solid fa-check"></i>';
+        }
+
+        function selectFyOption(el) {
+            document.querySelectorAll('#fyOptions .circle-select').forEach(i => {
+                i.classList.remove('checked');
+                i.replaceChildren();
+            });
+            const c = el.querySelector('.circle-select');
+            c.classList.add('checked');
+            c.innerHTML = '<i class="fa-solid fa-check"></i>';
+        }
+
+        function selectFileType(el) {
+            document.querySelectorAll('.checkbox-select').forEach(i => {
+                i.classList.remove('checked');
+                i.replaceChildren();
+            });
+            const b = el.querySelector('.checkbox-select');
+            b.classList.add('checked');
+            b.innerHTML = '<i class="fa-solid fa-check"></i>';
+        }
+
+        // ── PAYMENT UNLOCK ──
+        const paymentUnlockModal = document.getElementById('paymentUnlockModal');
+        const paymentPasswordForm = document.getElementById('paymentPasswordForm');
+        const paymentDetailsPassword = document.getElementById('paymentDetailsPassword');
+        const paymentPasswordError = document.getElementById('paymentPasswordError');
+        const paymentPasswordView = document.getElementById('paymentPasswordView');
+        const paymentDetailsView = document.getElementById('paymentDetailsView');
+        const paymentDetailList = document.getElementById('paymentDetailList');
+        const revealNamesBtn = document.getElementById('revealNamesBtn');
+        let selectedPayment = null,
+            revealAllNamesRequested = false,
+            allPaymentNamesRevealed = false;
+
+        function openPaymentPasswordPrompt() {
+            paymentPasswordForm.reset();
+            paymentPasswordError.textContent = '';
+            paymentPasswordView.hidden = false;
+            paymentDetailsView.hidden = true;
+            paymentUnlockModal.classList.add('active');
+            paymentDetailsPassword.focus();
+        }
+
+        function hideAllPaymentNames() {
+            document.querySelectorAll('.upi-barcode-trigger').forEach(btn => {
+                const b = document.createElement('span');
+                b.className = 'barcode-art';
+                b.setAttribute('aria-hidden', 'true');
+                for (let i = 0; i < 17; i++) b.appendChild(document.createElement('i'));
+                btn.replaceChildren(b);
+                btn.classList.remove('payment-name-revealed');
+            });
+            allPaymentNamesRevealed = false;
+            revealNamesBtn.innerHTML = '<i class="fa-regular fa-eye"></i>';
+        }
+        revealNamesBtn.addEventListener('click', () => {
+            if (allPaymentNamesRevealed) {
+                hideAllPaymentNames();
+                return;
+            }
+            selectedPayment = null;
+            revealAllNamesRequested = true;
+            openPaymentPasswordPrompt();
+        });
+        document.querySelectorAll('.upi-barcode-trigger').forEach(btn => {
+            btn.addEventListener('click', () => {
+                revealAllNamesRequested = false;
+                selectedPayment = btn.dataset;
+                openPaymentPasswordPrompt();
+            });
+        });
+        paymentPasswordForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            const unlockButton = document.getElementById('unlockPaymentBtn');
+            unlockButton.disabled = true;
+            paymentPasswordError.textContent = '';
+            try {
+                const response = await fetch('/api/unlock', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: paymentDetailsPassword.value })
+                });
+                const result = await response.json();
+                if (!response.ok || result.unlocked !== true) {
+                    paymentPasswordError.textContent = result.error || 'Unable to unlock payment details.';
+                    paymentDetailsPassword.select();
+                    return;
+                }
+            } catch (error) {
+                console.error('Payment details unlock failed:', error);
+                paymentPasswordError.textContent = 'Unable to verify the password. Please try again.';
+                return;
+            } finally {
+                unlockButton.disabled = false;
+            }
+            if (revealAllNamesRequested) {
+                document.querySelectorAll('.upi-barcode-trigger').forEach(btn => {
+                    btn.replaceChildren(document.createTextNode(btn.dataset.paymentName || 'N/A'));
+                    btn.classList.add('payment-name-revealed');
+                });
+                allPaymentNamesRevealed = true;
+                revealNamesBtn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+                closePaymentUnlock();
+                return;
+            }
+            if (!selectedPayment) return;
+            const details = [
+                ['Name', selectedPayment.paymentName || 'N/A'],
+                ['Type', selectedPayment.paymentType || 'N/A'],
+                ['Date', selectedPayment.paymentDate || 'N/A'],
+                ['Amount', selectedPayment.paymentAmount || 'N/A'],
+                ['Account status', selectedPayment.paymentDirection || 'N/A']
+            ];
+            paymentDetailList.replaceChildren();
+            details.forEach(([l, v]) => {
+                const row = document.createElement('div');
+                row.className = 'payment-detail-row';
+                const le = document.createElement('span');
+                le.textContent = l;
+                const ve = document.createElement('span');
+                ve.textContent = v;
+                row.append(le, ve);
+                paymentDetailList.appendChild(row);
+            });
+            paymentPasswordView.hidden = true;
+            paymentDetailsView.hidden = false;
+        });
+
+        function closePaymentUnlock() {
+            paymentUnlockModal.classList.remove('active');
+            selectedPayment = null;
+            revealAllNamesRequested = false;
+            paymentDetailsPassword.value = '';
+            paymentPasswordError.textContent = '';
+        }
+        document.getElementById('cancelPaymentUnlockBtn').addEventListener('click', closePaymentUnlock);
+        document.getElementById('closePaymentDetailsBtn').addEventListener('click', closePaymentUnlock);
+        paymentUnlockModal.addEventListener('click', e => {
+            if (e.target === paymentUnlockModal) closePaymentUnlock();
+        });
+
+        // ── SERVICES SEARCH ──
+        document.getElementById('servicesSearchInput').addEventListener('input', function() {
+            const f = this.value.toLowerCase();
+            document.querySelectorAll('#ribbonStack .ribbon-item').forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(f) ? 'block' : 'none';
+            });
+        });
+
+        // ── RAINBOW TEXT ANIMATION FOR INTEGRATED LAYOUT ──
+        const colors = [
+            "#FF0000",
+            "#FF007F",
+            "#FF8800",
+            "#FFD700",
+            "#FFFF00",
+            "#00FF66",
+            "#00E5FF"
+        ];
+
+        document.querySelectorAll("#companyLayoutPage .btn-text-3d").forEach(buttonText => {
+            const originalText = buttonText.textContent.trim();
+            buttonText.textContent = "";
+
+            let colorIndex = 0;
+
+            for (const character of originalText) {
+                if (character === " ") {
+                    const space = document.createElement("span");
+                    space.className = "space";
+                    buttonText.appendChild(space);
+                } else {
+                    const span = document.createElement("span");
+                    span.className = "char";
+                    span.textContent = character;
+                    span.style.color = colors[colorIndex % colors.length];
+
+                    colorIndex++;
+                    buttonText.appendChild(span);
+                }
+            }
+        });
+        // ── PROJECTS PAGE NAVIGATION & CAROUSEL LOGIC ──
+        const collabNavBtn = document.getElementById('collabNavBtn');
+
+        function openProjectsPage() {
+            closeAllPages();
+            projectsPage.style.display = 'block';
+            projectsPage.classList.add('active');
+            loadProjects();
+        }
+
+        if (collabNavBtn) {
+            collabNavBtn.addEventListener('click', openProjectsPage);
+        }
+
+        const projectsBackBtn = document.getElementById('projectsBackBtn');
+        if (projectsBackBtn) {
+            projectsBackBtn.addEventListener('click', () => {
+                projectsPage.classList.remove('active');
+                projectsPage.style.display = 'none';
+            });
+        }
+
+        const projects = [{
+                title: "SVU DEVELOPERS PVT LTD COMPANY",
+                description: "REAL ESTATE & LEGAL SERVICES",
+                image: "https://img.freepik.com/premium-photo/real-estate-logo-template-with-golden-color-real-estate-icon-logo-design-template-vector-design_971166-12778.jpg",
+                url: "https://www.svudevelopers.com/"
+            },
+            {
+                title: "Aperture Studio",
+                description: "Capturing Life's Most Precious Moments",
+                image: "https://images.unsplash.com/photo-1493863641943-9b68992a8d07?auto=format&fit=crop&w=1000&q=80",
+                url: "https://photographer-one-phi.vercel.app/"
+            },
+            {
+                title: "John Doe Studios",
+                description: "Photography",
+                image: "https://res.cloudinary.com/dsresihyk/image/upload/v1777382750/studio_config/xa3le0nxzy1e778rwml7.webp",
+                url: "https://photography-mauve.vercel.app/"
+            },
+            {
+                title: "Cafe Miracle Restaurant",
+                description: "Where Every Bite Feels Like A Miracle",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1000&q=80&auto=format&fit=crop",
+                url: "https://cafe-miracle-sigma.vercel.app/"
+            }
+        ];
+
+        let currentProject = 0;
+
+        function loadProjects() {
+            const projectsTrack = document.getElementById("projectsTrack");
+            const projectsDots = document.getElementById("projectsDots");
+
+            projectsTrack.innerHTML = "";
+            projectsDots.innerHTML = "";
+
+            projects.forEach((project, index) => {
+                const slide = document.createElement("div");
+                slide.className = "project-slide";
+                slide.style.width = "100%";
+                slide.style.flexShrink = "0";
+                slide.style.position = "relative";
+                slide.style.cursor = "pointer";
+                slide.style.overflow = "hidden";
+
+                slide.addEventListener("click", () => {
+                    window.open(project.url, "_blank");
+                });
+
+                slide.innerHTML = `
+                    <img src="${project.image}" alt="${project.title}" style="width: 100%; height: 500px; display: block; object-fit: cover;">
+                    <div class="project-overlay" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 70px 30px 25px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));">
+                        <h2 style="font-size: 28px; margin-bottom: 5px;">${project.title}</h2>
+                        <p style="color: #d1d5db; font-size: 15px;">${project.description}</p>
+                    </div>
+                `;
+                projectsTrack.appendChild(slide);
+
+                const dot = document.createElement("button");
+                dot.className = "project-dot";
+                dot.style.cssText = "width: 9px; height: 9px; border: none; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer;";
+                dot.addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    currentProject = index;
+                    updateProjectsCarousel();
+                });
+                projectsDots.appendChild(dot);
+            });
+
+            updateProjectsCarousel();
+        }
+
+        function updateProjectsCarousel() {
+            const projectsTrack = document.getElementById("projectsTrack");
+            if (projectsTrack) {
+                projectsTrack.style.transform = "translateX(-" + (currentProject * 100) + "%)";
+            }
+
+            const dots = document.querySelectorAll(".project-dot");
+            dots.forEach((dot, index) => {
+                if (index === currentProject) {
+                    dot.style.width = "25px";
+                    dot.style.borderRadius = "10px";
+                    dot.style.background = "#00e5ff";
+                } else {
+                    dot.style.width = "9px";
+                    dot.style.borderRadius = "50%";
+                    dot.style.background = "rgba(255, 255, 255, 0.5)";
+                }
+            });
+        }
+
+        window.nextProject = function() {
+            currentProject = (currentProject + 1) % projects.length;
+            updateProjectsCarousel();
+        };
+
+        window.prevProject = function() {
+            currentProject = (currentProject - 1 + projects.length) % projects.length;
+            updateProjectsCarousel();
+        }
+
+        setInterval(() => {
+            if (document.getElementById('projectsPage').classList.contains('active')) {
+                nextProject();
+            }
+        }, 5000);
+    </script>
+</body>
+
+</html>
