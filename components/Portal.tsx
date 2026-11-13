@@ -158,3 +158,4 @@ export default function Portal() {
   {notice&&page!=="home"&&<div className="modal-backdrop" onClick={()=>setNotice("")}><div className="modal-card" onClick={e=>e.stopPropagation()}><button className="secondary-btn" style={{float:"right"}} onClick={()=>setNotice("")}><X size={16}/></button><h3>{notice}</h3><button className="primary-btn" style={{marginTop:16}} onClick={()=>setNotice("")}>OK</button></div></div>}
  </div>;
 }
+
